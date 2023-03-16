@@ -17,16 +17,19 @@ driver = webdriver.Chrome(service=service, options=options)
 driver.get(LINKEDIN_JOBS_SEARCH_URL)
 
 # accept cookies
+time.sleep(3)
 buttons_cookies = driver.find_elements(By.CSS_SELECTOR, ".artdeco-global-alert-action__wrapper button")
 button_accept_cookies = buttons_cookies[0]
 button_accept_cookies.click()
 
 # click on sign in
+time.sleep(3)
 buttons_sign = driver.find_elements(By.CSS_SELECTOR, ".nav__cta-container a")
 button_sign_in = buttons_sign[1]
 button_sign_in.click()
 
 # enter my sign_in data
+time.sleep(3)
 username_input = driver.find_element(By.ID, "username")
 username_input.send_keys(LINKEDIN_USERNAME)
 password_input = driver.find_element(By.ID, "password")
@@ -35,9 +38,13 @@ button_submit = driver.find_element(By.CSS_SELECTOR, "form.login__form button")
 button_submit.click()
 
 # enter the job i'm looking for
-time.sleep(10)
-job_input = driver.find_element(By.ID, "jobs-search-box-keyword-id-ember24")
-# print(job_input.get_attribute("placeholder"))
+time.sleep(5)
+job_input = driver.find_element(By.CSS_SELECTOR, "div#keyword-typeahead-instance-ember23 input")
 job_input.send_keys("Développeur junior")
-job_input.send_keys(Keys.ENTER)
+
+# enter the area for the search
+location_input = driver.find_element(By.CSS_SELECTOR, "div#location-typeahead-instance-ember23 input")
+location_input.send_keys("Ile-de-France")
+time.sleep(3)
+location_input.send_keys(Keys.ENTER)
 
