@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import os
+import time
 
 LINKEDIN_JOBS_SEARCH_URL = "https://www.linkedin.com/jobs/"
 LINKEDIN_PASSWORD = os.environ["LINKEDIN_PASSWORD"]
@@ -31,4 +33,11 @@ password_input = driver.find_element(By.ID, "password")
 password_input.send_keys(LINKEDIN_PASSWORD)
 button_submit = driver.find_element(By.CSS_SELECTOR, "form.login__form button")
 button_submit.click()
+
+# enter the job i'm looking for
+time.sleep(10)
+job_input = driver.find_element(By.ID, "jobs-search-box-keyword-id-ember24")
+# print(job_input.get_attribute("placeholder"))
+job_input.send_keys("Développeur junior")
+job_input.send_keys(Keys.ENTER)
 
