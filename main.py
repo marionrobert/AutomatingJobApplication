@@ -10,3 +10,10 @@ options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 driver = webdriver.Chrome(service=service, options=options)
 driver.get(LINKEDIN_JOBS_SEARCH_URL)
+
+# accept cookies
+buttons_cookies = driver.find_elements(By.CSS_SELECTOR, ".artdeco-global-alert-action__wrapper button")
+button_accept_cookies = buttons_cookies[0]
+button_accept_cookies.click()
+
+
