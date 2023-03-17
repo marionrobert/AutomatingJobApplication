@@ -41,14 +41,16 @@ button_submit.click()
 
 # enter the job i'm looking for
 time.sleep(20)
+print("Im' looking for the input job keyword")
 job_input = driver.find_element(By.CSS_SELECTOR, "div.jobs-search-box__input--keyword input")
 job_input.send_keys("Développeur junior")
 
 # enter the area for the search
-time.sleep(3)
+time.sleep(5)
+print("Im' looking for the input job location")
 location_input = driver.find_element(By.CSS_SELECTOR, "div.jobs-search-box__input.jobs-search-box__input--location input")
 location_input.send_keys("Ile-de-France, France")
-time.sleep(3)
+time.sleep(5)
 location_input.send_keys(Keys.ENTER)
 
 # # click on button "see all"
@@ -68,17 +70,31 @@ location_input.send_keys(Keys.ENTER)
 time.sleep(5)
 all_job_offers = driver.find_elements(By.CSS_SELECTOR, "ul.scaffold-layout__list-container li a")
 print(len(all_job_offers))
+
+
+# get all the link to the offers job
 all_link_offers = [job.get_attribute("href") for job in all_job_offers]
 print(all_link_offers)
 
 for link in all_link_offers:
-    time.sleep(3)
     driver.get(link)
     time.sleep(5)
-    apply_button = driver.find_element(By.CSS_SELECTOR, "span.artdeco-button__text")
-    time.sleep(5)
+    apply_button = driver.find_element(By.CSS_SELECTOR, "div.jobs-apply-button--top-card span.artdeco-button__text")
+    time.sleep(2)
     if apply_button.get_attribute("innerText") == "Candidature simplifiée":
+        print("it's supposed to be a simplified application")
         apply_button.click()
+        time.sleep(3)
+        all_buttons_easy_apply_form = driver.find_elements(By.CSS_SELECTOR, "div.jobs-easy-apply-modal button span.artdeco-button__text")
+        send_application_button = all_buttons_easy_apply_form[-1]
+        if send_application_button.get_attribute("innerHTML").replace("\n", "").strip() == "Envoyer la candidature":
+            print("it's a simplified application. I can validate my CV.")
+            select_cv_button = driver.find_element(By.CSS_SELECTOR, "div.jobs-resume-picker__resume-btn-container button")
+            select_cv_button.click()
+            time.sleep(5)
+            print("I have validated my CV. Now, I just have to click on the 'Envoyer la candidature' button.")
+        else:
+            print("it's finally not a simplified application: there are more steps needed. Next application.")
     else:
         print("it's not a simplified application")
-    index += 1
+
